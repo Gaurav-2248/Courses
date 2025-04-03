@@ -1,21 +1,29 @@
 import React from 'react'
 import {FcLike} from 'react-icons/fc'
 
-function Card({course}) {
-  return (
-    <div>
-        <img src = {course.img.url}></img>
+const Card = (props) => {
+  let course = props.course;
+  function clickHandler() {
 
-        <div>
-            <butoon>
-                <FcLike fontSize="1.75rem" />
-            </butoon>
-            <div>
-                <p>{course.title}</p>
-                <p>{course.description}</p>
-            </div>
-        </div>
+  }
+  return(
+    <div className='w-[300px] bg-bgDark rounded-md overflow-hidden '>
+      <div className='relative '> 
+      <img src={course.image.url}/>
+      <div className='w-[40px] h-[40px] bg-white rounded-full absolute right-2 bottom-[0.5] grid place-items-center'>
+        <button onClick={clickHandler}>
+          <FcLike fontSize="1.75rem" opacity="20"/>
+        </button>
+      </div>
+      </div>
+     
+      <div className='p-4'>
+        <p className='text-white font-semibold text-lg leading-6'>{course.title}</p>
+        <p className='mt-2 text-white'>{course.description}</p>
+      </div>
+      
     </div>
+    
   )
 }
 

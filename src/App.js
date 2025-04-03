@@ -4,32 +4,49 @@ import Navbar from "./components/Navbar";
 import Filter from "./components/Filter";
 import Cards from "./components/Cards";
 import { toast } from "react-toastify";
+import Spinner from "./components/Spinner";
 
 const App = () => {
 
-  const [courses, setCourses] = useState(null)
+    const[courses, setCourses] = useState(null);
+    const[loading, setLoading] = useState(true);
+    
+  async function fetchData(){
+    setLoading(true );
+    try{
+      let response = await fetch(apiUrl);
+      let output = await response.json();
+      //output=> 
+        setCourses(output.data);
+
+    }
+    catch(error){
+       toast.error("Something went wrong");
+    }
+    setLoading(false);  
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try{
-            const res = await fetch(apiUrl);
-            const data = await res.json();
-            // save data into variable
-              setCourses(data.data);
-          }
-      catch(error){
-       toast.error("Something went wrong")
-      }
-    }
     fetchData();
-  },[])
+  }, []);
 
   return (
+    <div className="min-h-screen flex flex-col">
     <div>
-    
       <Navbar/>
+    </div>
+    <div className="bg-bgDark2">
+    <div >
       <Filter filterData={filterData}/>
-      <Cards/>
+      </div>
+      <div className="w-11/12 max-w-[1200px] mx-auto flex flex-wrap justify-center items-center min-h-[50vh]">
+         {
+          loading ? (<Spinner/>):(<Cards courses={courses}/>)
+         }
+      </div>
+    </div>
+      
+     
     </div>
   );
 };
